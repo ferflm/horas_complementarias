@@ -22,7 +22,7 @@ class _NavState extends State<Nav>{
   void initState() {
     super.initState();
     _pantallas.add(MyHomePage(title: 'Dashboard',));
-    _pantallas.add(HoursForm(title: 'Registrar Actividad'));
+    _pantallas.add(HoursForm(title: 'Registrar Actividad', changeScreen: _changeScreen,));
     _pantallas.add(History(title: 'Registro'));
     _cuerpo = _pantallas[_p];
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:horas_complementarias/models/activity.dart';
 import 'package:hive_ce/hive.dart';
-import 'dart:io';
+import 'package:open_file/open_file.dart';
 
 class History extends StatefulWidget {
   const History({super.key, required this.title});
@@ -48,47 +48,59 @@ class _HistoryState extends State<History> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Editar Actividad'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nombreController,
-                  decoration: const InputDecoration(labelText: 'Nombre'),
-                ),
-                TextField(
-                  controller: horasController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Horas'),
-                ),
-              ],
 
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: nombreController,
+                    decoration: const InputDecoration(labelText: 'Nombre'),
+                  ),
+                  TextField(
+                    controller: horasController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Horas'),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  if (actividad.filePath != null && actividad.filePath!.isNotEmpty)
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        OpenFile.open(actividad.filePath);
+                      },
+                      icon: const Icon(Icons.picture_as_pdf),
+                      label: const Text('Ver comprobante'),
+                    ),
+                ],
+              )
             ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  // Eliminar la actividad
-                  _eliminarActividad(actividad);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancelar'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _editarActividad(
-                    actividad,
-                    nombreController.text,
-                    int.tryParse(horasController.text) ?? actividad.hours,
-                  );
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Guardar'),
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      // Eliminar la actividad
+                      _eliminarActividad(actividad);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Eliminar', style: TextStyle(color: Colors.red, fontSize: 10)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _editarActividad(
+                        actividad,
+                        nombreController.text,
+                        int.tryParse(horasController.text) ?? actividad.hours,
+                      );
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Guardar', style: TextStyle(fontSize: 10),),
+                  ),
+                ],
+              )
             ],
           );
         },

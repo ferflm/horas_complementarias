@@ -21,7 +21,6 @@ class _HoursFormState extends State<HoursForm> {
   String? _desc;
   int _hours = 0;
   String _type = '';
-  String? _subtype;
   DateTime? _initDate;
   DateTime? _endDate;
   String? _filePath;
@@ -150,23 +149,6 @@ class _HoursFormState extends State<HoursForm> {
                     height: 20,
                   ),
 
-                  // Subtipo
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Subtipo (Opcional)',
-                      filled: true,
-                      fillColor: Colors.black12,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                    ),
-                    onSaved: (value) => _subtype = value,
-                  ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
                   // Horas
                   TextFormField(
                     decoration: const InputDecoration(
@@ -234,7 +216,6 @@ class _HoursFormState extends State<HoursForm> {
                           desc: _desc,
                           hours: _hours,
                           type: _type,
-                          subtype: _subtype,
                           initDate: _initDate!,
                           endDate: _endDate,
                           filePath: _filePath,

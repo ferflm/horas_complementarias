@@ -17,15 +17,12 @@ class Activity extends HiveObject {
   String type; // ej: 'Cultural', 'Deportiva', ...
 
   @HiveField(4)
-  String? subtype; // ej: 'Visita a museo', 'Feria de emprendimiento', 'Conferencias'
-
-  @HiveField(5)
   DateTime initDate;
 
-  @HiveField(6)
+  @HiveField(5)
   DateTime? endDate;
 
-  @HiveField(7)
+  @HiveField(6)
   String? filePath; // Ruta a un archivo o foto como comprobante
 
   Activity({
@@ -33,7 +30,6 @@ class Activity extends HiveObject {
     this.desc,
     required this.hours,
     required this.type,
-    this.subtype,
     required this.initDate,
     this.endDate,
     this.filePath,

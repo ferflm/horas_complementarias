@@ -39,6 +39,8 @@ dependencies:
   hive_ce_flutter: ^2.3.0
   hive_ce_generator: ^1.9.1
   file_picker: ^10.1.2
+  open_file: ^3.5.10
+  fl_chart: ^0.71.0
 
 dev_dependencies:
   flutter_test:

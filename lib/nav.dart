@@ -13,20 +13,25 @@ class Nav extends StatefulWidget {
 }
 
 class _NavState extends State<Nav>{
+  // Variables para la navegación entre las pantallas
   int _p = 0;
   List<Widget> _pantallas = [];
 
   Widget? _cuerpo;
+  // --------------------
 
+
+  // Inicializacion de cada pantalla
   @override
   void initState() {
     super.initState();
     _pantallas.add(MyHomePage(title: 'Dashboard',));
-    _pantallas.add(HoursForm(title: 'Registrar Actividad', changeScreen: _changeScreen,));
+    _pantallas.add(HoursForm(title: 'Registrar Actividad', changeScreen: _changeScreen,)); // La función _changeScreen se pasa como parametro al formulario
     _pantallas.add(History(title: 'Registro'));
     _cuerpo = _pantallas[_p];
   }
 
+  // Función para cambiar la pantalla actual
   void _changeScreen(int v){
     _p = v;
     setState(() {

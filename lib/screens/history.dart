@@ -26,6 +26,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     final activities = _box.values.toList();
 
+    // Edita la actividad solo en los campos del titulo y la cantidad de horas
     void _editarActividad(Activity actividad, String nuevoNombre, int nuevasHoras) {
       actividad.title = nuevoNombre;
       actividad.hours = nuevasHoras;
@@ -33,12 +34,13 @@ class _HistoryState extends State<History> {
       setState(() {});  // Refresca la UI
     }
 
+    // Elimina la actividad de la caja
     void _eliminarActividad(Activity actividad) {
       actividad.delete(); // Hive elimina el registro
       setState(() {});     // Refresca la lista
     }
 
-
+    // Muestra una ventana popup de la actividad seleccionada
     void _mostrarDialogoEdicion(BuildContext context, Activity actividad) {
       final nombreController = TextEditingController(text: actividad.title);
       final horasController = TextEditingController(text: actividad.hours.toString());
@@ -68,7 +70,7 @@ class _HistoryState extends State<History> {
                   if (actividad.filePath != null && actividad.filePath!.isNotEmpty)
                     ElevatedButton.icon(
                       onPressed: () {
-                        OpenFile.open(actividad.filePath);
+                        OpenFile.open(actividad.filePath); // Abre el archivo que se asocio a la actividad por medio de la dependencia open_file
                       },
                       icon: const Icon(Icons.picture_as_pdf),
                       label: const Text('Ver comprobante'),
@@ -126,13 +128,13 @@ class _HistoryState extends State<History> {
         itemCount: activities.length,
         itemBuilder: (context, index) {
           final activity = activities[index];
-          return ListTile(
+          return ListTile( // Muestra todas las actividades en la caja activities en forma de lista con su titulo, el tipo de actividad y la cantidad de horas
             title: Text(activity.title),
             subtitle: Text(
               '${activity.type} - ${activity.hours} horas',
             ),
             trailing: Icon(Icons.chevron_right),
-            onTap: () => _mostrarDialogoEdicion(context, activity),
+            onTap: () => _mostrarDialogoEdicion(context, activity), // Manda a llamar a la ventana pop up
           );
         },
       ),

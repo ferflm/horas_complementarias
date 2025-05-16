@@ -33,6 +33,7 @@ class _HoursFormState extends State<HoursForm> {
     'Otra',
   ];
 
+  // Funcion para mostrar un datepicker en el formulario
   Future<void> _selectDate(BuildContext context, bool isInitDate) async {
     final now = DateTime.now();
     final DateTime? picked = await showDatePicker(
@@ -52,6 +53,8 @@ class _HoursFormState extends State<HoursForm> {
     }
   }
 
+
+  // Funcion para obtener la ruta a un archivo del dispositivo por medio de la dependencia file_picker
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles();
     if (result != null) {
@@ -211,6 +214,7 @@ class _HoursFormState extends State<HoursForm> {
                       if (_formKey.currentState!.validate() && _initDate != null) {
                         _formKey.currentState!.save();
 
+                        // Guarda los campos en un objeto de tipo Activity
                         final newActivity = Activity(
                           title: _title,
                           desc: _desc,
@@ -222,14 +226,14 @@ class _HoursFormState extends State<HoursForm> {
                         );
 
                         final box = await Hive.openBox<Activity>('activities');
-                        await box.add(newActivity);
+                        await box.add(newActivity); // Registra el objeto tipo Activity en la caja
 
                         if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar( // Muestra una imagen sobre el scaffold para notificar al usuario que se registro con exito la actividad
                           const SnackBar(content: Text('Actividad registrada')),
                         );
                         widget.changeScreen(0);
-                      } else if (_initDate == null) {
+                      } else if (_initDate == null) { // Verifica que se haya seleccionado una fecha de inicio
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Selecciona una fecha de inicio')),
                         );

@@ -12,9 +12,12 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// Pagina principal de la aplicación, muestra el progreso
 class _MyHomePageState extends State<MyHomePage> {
   int totalHours = 0;
 
+
+  // Función para contar la cantidad de horas por tipo de actividad
   Map<String, double> _getHoursByType(Iterable<Activity> activities) {
     final Map<String, double> data = {};
     for (var a in activities) {
@@ -23,6 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return data;
   }
 
+  // Funcion para obtener la cantidad de horas registradas por fecha
   List<FlSpot> _getDailyHours(List<Activity> activities) {
     if (activities.isEmpty) return [];
 
@@ -48,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadHours();
   }
 
+  // Suma el total de las horas registradas
   void _loadHours() {
     final box = Hive.box<Activity>('activities');
     final activities = box.values;
@@ -64,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final activities = box.values;
     final hoursByType = _getHoursByType(activities);
 
+    // Paleta de colores para los gráficos
     final indigoShades = [
       Colors.indigo.shade600,
       Colors.indigo.shade700,
@@ -80,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'Otra': indigoShades[4],
     };
 
+
+    // Establece cada campo en el pie chart, el valor, etiqueta de la activad y el color en forma de lista
     final pieSections = hoursByType.entries.map((entry) {
       return PieChartSectionData(
         value: entry.value,
@@ -108,6 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+
+              // Barra de progreso de las horas completadas
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -118,14 +128,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   LinearProgressIndicator(value: progress.clamp(0, 1)),
                 ],
               ),
+
+
               SizedBox(
                 height: 100,
               ),
               Row(
                 children: [
+                  // Expanded para ajustarse al tamaño de la pantalla del dispositivo
                   Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
+                        // Renderizado del piechart
                         child: PieChart(
                             PieChartData(
                               sections: pieSections,
@@ -136,8 +150,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     width: 20,
                   ),
+
                   Expanded(
-                      child: AspectRatio(
+                      child: AspectRatio( // Mantiene la proporcion del grafico
                           aspectRatio: 1,
                           child: LineChart(LineChartData(
                             lineBarsData: [
@@ -147,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Colors.indigo.shade400,
                                 barWidth: 4,
                                 dotData: FlDotData(show: false),
-                                belowBarData: BarAreaData(
+                                belowBarData: BarAreaData( // Dibuja el area debajo de la linea
                                   show: true,
                                   color: Colors.indigo.shade200.withOpacity(0.3),
                                 ),
@@ -156,12 +171,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             minY: 0,
                             titlesData: FlTitlesData(
                               show: true,
-                              leftTitles: AxisTitles(
+                              leftTitles: AxisTitles( // Modifica el label en Y
                                 sideTitles: SideTitles(showTitles: false),
                                 axisNameWidget: Text('Horas registradas'),
                                 axisNameSize: 24,
                               ),
-                              bottomTitles: AxisTitles(
+                              bottomTitles: AxisTitles( // Modifica el label en Y
                                 sideTitles: SideTitles(showTitles: false),
                                 axisNameWidget: Text('Día'),
                                 axisNameSize: 24,
@@ -169,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                               rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                             ),
-                            gridData: FlGridData(
+                            gridData: FlGridData( // Dibuja un grid para mejorar la visualizacion del grafico
                               show: true,
                               drawVerticalLine: true,
                               drawHorizontalLine: true,
@@ -183,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                             borderData: FlBorderData(show: false),
-                            lineTouchData: LineTouchData(
+                            lineTouchData: LineTouchData( // Tooltip para mostrar la cantidad de horas registradas en cada dia
                               enabled: true,
                               touchTooltipData: LineTouchTooltipData(
                                 tooltipRoundedRadius: 10,
